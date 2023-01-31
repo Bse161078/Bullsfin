@@ -16,6 +16,8 @@ import BrokersInfo from "./components/BrokersInfo/BrokersInfo";
 import BrokerProfile from "./components/Broker/ProkerProfile";
 import Tools from "./components/Tools/Tools";
 import WithDraw from "./components/WithDraw/WithDraw";
+import Support from "./components/Support/Support";
+import Blogs from "./components/Broker/Blogs";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -56,7 +58,10 @@ function App() {
               exact
               element={<BrokerProfile />}
             ></Route>
+            <Route path="/blogs" exact element={<Blogs />}></Route>
             <Route path="/withdraw" exact element={<WithDraw />}></Route>
+
+            <Route path="/support" exact element={<Support />}></Route>
             <Route path="/tools" exact element={<Tools />}></Route>
 
             <Route path="/BrokersInformation" element={<BrokersInfo />}></Route>

@@ -106,7 +106,8 @@ function Sidebar() {
           variant="subtitle1"
           sx={{ padding: 2, cursor: "pointer" }}
           onClick={() => {
-            setIconColor("Support");
+            setIconColor("support");
+            handleOnClick("support");
           }}
         >
           <SupportIcon
