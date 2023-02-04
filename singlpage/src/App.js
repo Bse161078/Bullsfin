@@ -17,7 +17,7 @@ import BrokerProfile from "./components/Broker/ProkerProfile";
 import Tools from "./components/Tools/Tools";
 import WithDraw from "./components/WithDraw/WithDraw";
 import Support from "./components/Support/Support";
-import Blogs from "./components/Broker/Blogs";
+import Blogs from "./components/Blogs/Blogs";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -47,7 +47,6 @@ function App() {
           <Routes>
             <Route path="/Home" element={<LandingPage />}></Route>
             <Route path="/" element={<LandingPage />}></Route>
-
             <Route path="/SignIn" element={<Signin />}></Route>
             <Route path="/SignUp" element={<Signup />}></Route>
             <Route path="/Dashboard" element={<Dashboard />}></Route>
@@ -60,10 +59,8 @@ function App() {
             ></Route>
             <Route path="/blogs" exact element={<Blogs />}></Route>
             <Route path="/withdraw" exact element={<WithDraw />}></Route>
-
             <Route path="/support" exact element={<Support />}></Route>
             <Route path="/tools" exact element={<Tools />}></Route>
-
             <Route path="/BrokersInformation" element={<BrokersInfo />}></Route>
             {/* <Redirect path="/" to="/home" /> */}
           </Routes>

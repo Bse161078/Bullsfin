@@ -3,10 +3,10 @@ import { Grid } from "@mui/material";
 import MainNavbar from "../LandingPage/Navbar/MainNavbar";
 import Calculator from "../LandingPage/RebateCalculator/Calculator";
 import Sidebar from "../Sidebar/Sidebar";
-import BrokersList from "./BrokersList/BrokersList";
-import BrokerType from "./BrokerType/BrokerType";
-import EarningDetails from "./Earning/EarningDetails";
-import ForexSearch from "./ForexSearch/ForexSearch";
+import BrokersList from "../Broker/BrokersList/BrokersList";
+import BrokerType from "../Broker/BrokerType/BrokerType";
+import EarningDetails from "../Broker/Earning/EarningDetails";
+import ForexSearch from "../Broker/ForexSearch/ForexSearch";
 import { SettingOutlined } from "@ant-design/icons";
 import {
   Button,

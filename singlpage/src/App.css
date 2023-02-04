@@ -116,6 +116,7 @@ border-radius: 9px;
   height: 32px;
   padding: 0 11px;
   border-radius: 50px;
+  border: none !important;
 }
 .fs-r-16{
   font-size: 16px;
@@ -282,3 +283,6 @@ align-items: center;
 text-align: center;
 }
 
+.ant-select-single.ant-select-open .ant-select-selection-item {
+  color: #ffff !important;
+}
