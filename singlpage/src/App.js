@@ -18,6 +18,7 @@ import Tools from "./components/Tools/Tools";
 import WithDraw from "./components/WithDraw/WithDraw";
 import Support from "./components/Support/Support";
 import Blogs from "./components/Blogs/Blogs";
+import BlogDetail from "./components/Blogs/BlogDetail";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -62,6 +63,8 @@ function App() {
             <Route path="/support" exact element={<Support />}></Route>
             <Route path="/tools" exact element={<Tools />}></Route>
             <Route path="/BrokersInformation" element={<BrokersInfo />}></Route>
+            <Route path="/blog/:title" element={<BlogDetail />}></Route>
+
             {/* <Redirect path="/" to="/home" /> */}
           </Routes>
         </Router>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Typography, Card, CardContent, CardMedia } from "@mui/material";
 import card from "../../../assets/card.png";
-import ReactScriptTag from "react-script-tag";
+import ReactScriptTag from "./ReactScriptTag";
 function TradeWidget() {
   return (
     <Grid container sx={{ padding: 15 }}>

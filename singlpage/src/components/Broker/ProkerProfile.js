@@ -7,7 +7,9 @@ import BrokersList from "./BrokersList/BrokersList";
 import BrokerType from "./BrokerType/BrokerType";
 import EarningDetails from "./Earning/EarningDetails";
 import ForexSearch from "./ForexSearch/ForexSearch";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { SettingOutlined } from "@ant-design/icons";
+import EmailIcon from "@mui/icons-material/Email";
 import {
   Button,
   Checkbox,
@@ -20,7 +22,7 @@ import {
   Table,
   Timeline,
 } from "antd";
-
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 const { Panel } = Collapse;
 const { Option } = Select;
 const text = `
@@ -29,15 +31,19 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 
-const ProkerProfile = () => {
+const ProkerProfile = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  const { state, broker } = useLocation();
+  console.log(state);
   const showConfirmModal = () => {
     setIsConfirmModalOpen(!isConfirmModalOpen);
   };
   const showModal = () => {
     setIsModalOpen(true);
   };
+
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type) => {
     api[type]({
@@ -58,7 +64,7 @@ const ProkerProfile = () => {
   return (
     <div className="">
       {contextHolder}
-      <Grid container>
+      <dic className="container">
         <Grid item xs={12}>
           <MainNavbar />
         </Grid>
@@ -74,22 +80,24 @@ const ProkerProfile = () => {
                     <div className="d-flex align-items-center">
                       <img
                         style={{ width: "80px", borderRadius: "12px" }}
-                        src={
-                          "https://static.paybackfx.com/images/brokers/icmarkets.rebate.jpg"
-                        }
+                        src={state.broker.brokerImages}
                         alt=""
                       />
                       <div className="px-2">
-                        <p className="fs-b-16 fw-bold m-0">IC Markte</p>
-                        <p className="fs-b-14 text-muted">Web Developer</p>
+                        <p className="fs-b-16 fw-bold m-0">
+                          {state.broker.brokerName}
+                        </p>
+                        <p className="fs-b-14 text-muted">
+                          {state.broker.brokerType}
+                        </p>
                       </div>
                     </div>
-                    <Button
+                    <button
                       className="btnLightBrown p-2 px-4"
                       onClick={showModal}
                     >
                       Setup account{" "}
-                    </Button>
+                    </button>
                   </div>
                   {/* <Divider /> */}
                   <div className="row m-0 p-0 mt-3">
@@ -97,26 +105,34 @@ const ProkerProfile = () => {
                       <div className="p-2">
                         <p className="fs-b-14 mb-0 fw-bold">Standard MT4/MT5</p>
                         <p className="fs-b-14 text-muted">
-                          Up to 0.409 Pips/Round Turn Lot
+                          {state.broker?.Standard_MT4_MT5}
                         </p>
                       </div>
                     </div>
                     <div className="col border">
                       <div className="p-2">
-                        <p className="fs-b-14 mb-0 fw-bold">Standard MT4/MT5</p>
+                        <p className="fs-b-14 mb-0 fw-bold">Raw Spread</p>
                         <p className="fs-b-14 text-muted">
-                          Up to 0.409 Pips/Round Turn Lot
+                          {state.broker?.Raw_Spead}
                         </p>
                       </div>
                     </div>
                     <div className="col border">
                       <div className="p-2">
-                        <p className="fs-b-14 mb-0 fw-bold">Standard MT4/MT5</p>
+                        <p className="fs-b-14 mb-0 fw-bold">cTrader</p>
                         <p className="fs-b-14 text-muted">
-                          Up to 0.409 Pips/Round Turn Lot
+                          {state.broker?.CTrader}
                         </p>
                       </div>
                     </div>
+                  </div>
+                  <div className="p-3  gap-5 d-flex">
+                    <p>
+                      <EmailIcon /> {state.broker.BrokerEmail}
+                    </p>
+                    <p>
+                      <LocalPhoneIcon /> {state.broker.BrokerPhone}
+                    </p>
                   </div>
                 </div>
                 <div className="whiteCard mt-3">
@@ -205,56 +221,63 @@ const ProkerProfile = () => {
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">Broker</p>
                         <p className="fs-b-14 text-muted text-start">
-                          IC Markets
+                          {state.broker.brokerName}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">Broker type</p>
-                        <p className="fs-b-14 text-muted text-start">ECN</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.brokerType}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">Country</p>
                         <p className="fs-b-14 text-muted text-start">
-                          Australia
+                          {state.broker.brokerCountry}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Operating since year
                         </p>
-                        <p className="fs-b-14 text-muted text-start">2007</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {" "}
+                          {state.broker.operating_Since_Year}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">
                           International offices
                         </p>
                         <p className="fs-b-14 text-muted text-start">
-                          Level 2 Number 2 Bligh Street Sydney
+                          {state.broker.International_Offices}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">Regulation</p>
                         <p className="fs-b-14 text-muted text-start">
-                          IC Markets
+                          {state.broker.Regulation}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">Address</p>
                         <p className="fs-b-14 text-muted text-start">
-                          IC Markets
+                          {state.broker.address}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">Broker status</p>
                         <p className="fs-b-14 text-muted text-start">
-                          IC Markets
+                          {state.broker.brokerStatus}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Accepting US clients?
                         </p>
-                        <p className="fs-b-14 text-muted text-start">No</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Accepting_US_clients}
+                        </p>
                       </div>
                     </Panel>
 
@@ -271,7 +294,7 @@ const ProkerProfile = () => {
                           Account currency
                         </p>
                         <p className="fs-b-14 text-muted text-start">
-                          USD, GBP, EUR, CHF, JPY, NZD, CAD, SGD, HKD, AUD
+                          {state.broker.accountCurrency}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
@@ -279,39 +302,48 @@ const ProkerProfile = () => {
                           Funding/Withdrawal methods
                         </p>
                         <p className="fs-b-14 text-muted text-start">
-                          Wire Transfer, Credit Card, Debit Card, Moneybookers,
-                          WebMoney, Neteller
+                          {state.broker.Funding_Withdrawal_methods}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Swap free accounts
                         </p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Swap_free_accounts}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Segregated accounts
                         </p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.segregated_Accounts}
+                        </p>
                       </div>{" "}
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Interest on margin
                         </p>
-                        <p className="fs-b-14 text-muted text-start">No</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Interest_on_margin}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Managed accounts
                         </p>
-                        <p className="fs-b-14 text-muted text-start">yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Managed_accounts}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Accounts for money managers (MAM, PAMM)
                         </p>
-                        <p className="fs-b-14 text-muted text-start">yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Accounts_for_money_managers}
+                        </p>
                       </div>
                     </Panel>
                     <Panel
@@ -327,31 +359,31 @@ const ProkerProfile = () => {
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Phone</p>
                         <p className="fs-b-14 text-muted text-start">
-                          +61280144280
+                          {state.broker.customerPhone}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Fax</p>
                         <p className="fs-b-14 text-muted text-start">
-                          +61280722120
+                          {state.broker.customerFax}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Email</p>
                         <p className="fs-b-14 text-muted text-start">
-                          support@icmarkets.com
+                          {state.broker.customerRmail}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Languages</p>
                         <p className="fs-b-14 text-muted text-start">
-                          English, Spanish, French, Japanese, Chinese
+                          {state.broker.customerLanguages}
                         </p>
                       </div>{" "}
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Availability</p>
                         <p className="fs-b-14 text-muted text-start">
-                          Phone, Chat, Email, FAX
+                          {state.broker.customerAvailability}
                         </p>
                       </div>
                     </Panel>
@@ -366,7 +398,7 @@ const ProkerProfile = () => {
                           Trading Platforms
                         </p>
                         <p className="fs-b-14 text-muted text-start">
-                          MetaTrader 4, MetaTrader 5, cTrader, AutoTrade
+                          {state.broker.TradingPlatforms}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
@@ -374,61 +406,81 @@ const ProkerProfile = () => {
                           Trading platform(s) timezone
                         </p>
                         <p className="fs-b-14 text-muted text-start">
-                          (GMT +2:00) South Africa, Jerusalem
+                          {state.broker.Trading_platform_timezone}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Demo Account</p>
-                        <p className="fs-b-14 text-muted text-start">yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Demo_Account}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Mobile trading</p>
-                        <p className="fs-b-14 text-muted text-start">yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Mobile_trading}
+                        </p>
                       </div>{" "}
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Web based trading
                         </p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Web_based_trading}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">API</p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.API}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">OCO orders</p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.OCO_orders}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Trading over the phone
                         </p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Trading_over_the_phone}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Hedging allowed</p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Hedging_allowed}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Trailing stops</p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Trailing_stops}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           One click trading
                         </p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.One_click_trading}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Contests</p>
-                        <p className="fs-b-14 text-muted text-start">No</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Contests}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Other trading instruments
                         </p>
                         <p className="fs-b-14 text-muted text-start">
-                          Indices, Commodities, Energies, CFDs
+                          {state.broker.Other_trading_instruments}
                         </p>
                       </div>
                     </Panel>
@@ -442,47 +494,59 @@ const ProkerProfile = () => {
                         <p className="fs-b-14 fw-weight-600">
                           Minimum deposit($)
                         </p>
-                        <p className="fs-b-14 text-muted text-start">200.0</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Minimum_deposit}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Maximal leverage(1:?)
                         </p>
-                        <p className="fs-b-14 text-muted text-start">500</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Maximal_leverage}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Minimum lot Size
                         </p>
-                        <p className="fs-b-14 text-muted text-start">0.01</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Minimum_lot_Size}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Maximum lot Size
                         </p>
-                        <p className="fs-b-14 text-muted text-start">200.0</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Maximum_lot_Size}
+                        </p>
                       </div>{" "}
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Commission</p>
-                        <p className="fs-b-14 text-muted text-start">7.0</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Commission}
+                        </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Spread</p>
                         <p className="fs-b-14 text-muted text-start">
-                          Variable
+                          {state.broker.Spread}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">Decimals</p>
                         <p className="fs-b-14 text-muted text-start">
-                          5 decimals
+                          {state.broker.decimals}
                         </p>
                       </div>
                       <div className="d-flex justify-content-between border-bottom  py-2">
                         <p className="fs-b-14 fw-weight-600">
                           Scalping allowed
                         </p>
-                        <p className="fs-b-14 text-muted text-start">Yes</p>
+                        <p className="fs-b-14 text-muted text-start">
+                          {state.broker.Scalping_allowed}
+                        </p>
                       </div>
                     </Panel>
                     <Panel
@@ -493,46 +557,17 @@ const ProkerProfile = () => {
                           General Information
                         </p>
                       }
-                      key="5"
+                      key="6"
                     >
                       <p className="fs-b-14 ">
-                        IC Markets is best known for having some of the tightest
-                        spreads in the world. In fact, our EURUSD spread has
-                        been the lowest in the world for almost two years,
-                        averaging 0.1 pips 24/5. IC Markets is able to offer
-                        market leading pricing and trading conditions through
-                        its platforms by providing clients with True ECN
-                        connectivity. True ECN Connectivity allows you to trade
-                        on institutional grade liquidity from the world’s
-                        leading investment banks, hedge funds and dark pool
-                        liquidity execution venues.
-                        <br />
-                        <br />
-                        Executable Streaming Prices (ESP) are sent from IC
-                        Markets liquidity providers to our ECN environment where
-                        clients can trade with no dealing desk, price
-                        manipulation or re-quotes. Due to the diverse liquidity
-                        mix comprising of up to 50 different liquidity providers
-                        at any one time, IC Markets is the forex broker of
-                        choice for high volume traders, scalpers and robots who
-                        demand the tightest spreads and best execution.
-                        <br />
-                        <br />
-                        • True ECN spreads from 0.0 pips
-                        <br />
-                        • Start with $200
-                        <br />
-                        • 500x Leverage • Micro lot trading
-                        <br />
-                        • 77 currencies, metals and CFDs
-                        <br />• ASIC regulated and segregated funds
+                        {state.broker.General_Information}
                       </p>
                     </Panel>
                   </Collapse>
                 </div>
               </div>
             </div>
-            <Collapse
+            {/* <Collapse
               accordion
               ghost
               defaultActiveKey={["1"]}
@@ -565,10 +600,10 @@ const ProkerProfile = () => {
                   blanditiis dolorum qui voluptatibus, atque aliquid nemo?
                 </div>
               </Panel>
-            </Collapse>
+            </Collapse> */}
           </div>
         </div>
-      </Grid>
+      </dic>
       <Modal
         title="Setup your live IC Trading Account"
         open={isModalOpen}
@@ -597,7 +632,7 @@ const ProkerProfile = () => {
             color="red"
           >
             <div className="fs-b-18 fw-600">
-              Open A Live Account With IC Markets
+              Open A Live Account With {state.broker.brokerName}
             </div>
             <br />
             <p className="text-muted">
@@ -632,7 +667,7 @@ const ProkerProfile = () => {
             color="red"
           >
             <div className="fs-b-18 fw-600">
-              Provide Your Live IC Markets Account Number
+              Provide Your Live {state.broker.brokerName} Account Number
             </div>
             <br />
             <div className="col-md-6 mb-2">

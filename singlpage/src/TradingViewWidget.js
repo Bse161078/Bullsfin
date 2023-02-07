@@ -1,5 +1,5 @@
 import React from "react";
-import ReactScriptTag from "react-script-tag";
+import ReactScriptTag from "./ReactScriptTag";
 
 function TradingViewWidget() {
   return (

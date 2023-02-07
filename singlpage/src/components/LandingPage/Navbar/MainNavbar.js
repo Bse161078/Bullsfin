@@ -6,11 +6,14 @@ import { Container, CssBaseline } from "@material-ui/core";
 import DayNightToggle from "react-day-and-night-toggle";
 import logo from "../../../assets/logo.png";
 import logoB from "../../../assets/logoB.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { firebase } from "../../../Firebase/config";
+import { notification } from "antd";
 
 function MainNavbar() {
   const [mode, setMode] = useState("light");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  // const history=useHistory()
   const navigate = useNavigate();
   const handleOnClick = () => navigate("/SignIn");
   const theme = useMemo(
@@ -26,7 +29,16 @@ function MainNavbar() {
       }),
     [mode]
   );
-
+  const userValid = () => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      console.log("Token is valid. User:", user);
+      return true;
+    } else {
+      return false;
+    }
+  };
+  console.log(userValid());
   return (
     <div>
       <Grid container sx={{ padding: 6 }}>
@@ -36,96 +48,142 @@ function MainNavbar() {
         <Grid item xs={1}></Grid>
         <Grid item xs={9}>
           <Grid container>
-            {window.location.href.includes("/") ||
-            window.location.href.includes("/Sign") ? (
-              <>
-                <Grid item xs={2}>
-                  <Button variant="h6" sx={{ cursor: "pointer" }}>
-                    Home
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button variant="h6" sx={{ cursor: "pointer" }}>
-                    Brokers
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button variant="h6" sx={{ cursor: "pointer" }}>
-                    Trading Tools
-                  </Button>
-                </Grid>
+            <>
+              <Grid item xs={2}>
+                <Button
+                  onClick={() => navigate("/Home")}
+                  variant="h6"
+                  sx={{ cursor: "pointer" }}
+                >
+                  Home
+                </Button>
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  onClick={() => {
+                    firebase.auth().onAuthStateChanged(function (user) {
+                      if (user) {
+                        navigate("/Broker");
 
-                <Grid item xs={2}>
-                  <Button variant="h6" sx={{ cursor: "pointer" }}>
-                    Academy(Blogs)
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor: "black",
-                      borderColor: "black",
-                      borderRadius: "20px",
-                      color: "white",
-                      ":hover": {
-                        bgcolor: "black",
+                        // console.log("Token is valid. User:", user);
+                      } else {
+                        console.error("Token is invalid");
+                        navigate("/signin");
+                      }
+                    });
+                    // localStorage.getItem("token")
+                    // navigate("/Broker")
+                  }}
+                  variant="h6"
+                  sx={{
+                    cursor: "pointer",
+                    color: "#000",
+                    textDecoration: "none",
+                  }}
+                >
+                  Brokers
+                </Button>
+              </Grid>
+              <Grid item xs={2}>
+                <Button variant="h6" sx={{ cursor: "pointer" }}>
+                  Trading Tools
+                </Button>
+              </Grid>
+
+              <Grid item xs={2}>
+                <Button
+                  variant="h6"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/blogs");
+                  }}
+                >
+                  Academy(Blogs)
+                </Button>
+              </Grid>
+
+              <Grid item xs={2}>
+                {userValid() !== true ? (
+                  <>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor: "black",
+                        borderColor: "black",
+                        borderRadius: "20px",
                         color: "white",
-                      },
-                    }}
-                    onClick={() => {
-                      handleOnClick();
-                    }}
-                  >
-                    Signin/Signup
-                  </Button>
-                </Grid>
-              </>
-            ) : (
-              <>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={2}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "black",
-                      borderRadius: "20px",
-                      color: "#030229",
-                      ":hover": {
-                        bgcolor: "#FFFFFF",
-                        color: "black",
-                      },
-                    }}
-                  >
-                    Add Account
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor: "#A97C50",
-                      borderColor: "black",
-                      borderRadius: "20px",
-                      color: "white",
-                      ":hover": {
-                        bgcolor: "#A97C50",
+                        ":hover": {
+                          bgcolor: "black",
+                          color: "white",
+                        },
+                      }}
+                      onClick={() => {
+                        handleOnClick();
+                      }}
+                    >
+                      Signin/Signup
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor: "#A97C50",
+                        borderColor: "black",
+                        borderRadius: "20px",
                         color: "white",
-                      },
-                    }}
-                  >
-                    Log out
-                  </Button>
-                </Grid>
-              </>
-            )}
+                        ":hover": {
+                          bgcolor: "#A97C50",
+                          color: "white",
+                        },
+                      }}
+                      onClick={() => {
+                        firebase
+                          .auth()
+                          .signOut()
+                          .then(function () {
+                            console.log("User signed out successfully");
+                            navigate("/home");
+                            notification.success({
+                              message: "User signed out successfully",
+                            });
+                          })
+                          .catch(function (error) {
+                            console.error("Error signing out user:", error);
+                          });
+                      }}
+                    >
+                      Log out
+                    </Button>
+                    {/* <Grid item xs={2}> */}
+                    {/* <Button
+                        variant="contained"
+                        size="large"
+                        sx={{
+                          cursor: "pointer",
+                          backgroundColor: "#FFFFFF",
+                          borderColor: "black",
+                          borderRadius: "20px",
+                          color: "#030229",
+                          ":hover": {
+                            bgcolor: "#FFFFFF",
+                            color: "black",
+                          },
+                        }}
+                      >
+                        Add Account
+                      </Button> */}
+                    {/* </Grid> */}
+                  </>
+                )}
+              </Grid>
+            </>
+
             <Grid item xs={0.5}></Grid>
 
             <Grid item xs={1.5}>
